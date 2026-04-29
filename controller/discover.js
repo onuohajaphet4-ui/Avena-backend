@@ -1,6 +1,6 @@
 import { Profile } from "../model/profile.js";
 import { Preference } from "../model/preference.js";
-import { Match } from "../model/Match.js";
+import { Match } from "../model/match.js";
 
 export const getDiscoverUsers = async (req, res) => {
 
