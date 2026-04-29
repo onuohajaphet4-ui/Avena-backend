@@ -1,5 +1,5 @@
-import { Like } from "../model/Like.js";
-import { Match } from "../model/Match.js";
+import { Like } from "../model/like.js";
+import { Match } from "../model/match.js";
 import { Profile } from "../model/profile.js";
 import { Preference } from "../model/preference.js";
 
