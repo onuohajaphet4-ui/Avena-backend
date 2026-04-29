@@ -1,10 +1,11 @@
 import { Profile } from "../model/profile.js";
 import cloudinary from "../config/cloudinary.js";
 
-// CREATE PROFILE
+
+
+// ================= CREATE PROFILE =================
 export const createProfile = async (req, res) => {
   const userId = req.user.id;
-
   const body = req.body || {};
 
   const {
@@ -16,9 +17,6 @@ export const createProfile = async (req, res) => {
     prompt
   } = body;
 
-  // console.log(req.body);
-  // console.log(req.files);
-
   try {
     const existingProfile = await Profile.findOne({ userId });
 
@@ -28,19 +26,18 @@ export const createProfile = async (req, res) => {
       });
     }
 
-    // required fields
     if (!name || !age || !gender) {
       return res.status(400).json({
         message: "Name, age and gender are required"
       });
     }
 
+    // UPLOAD PHOTOS
     const uploadedPhotos = [];
 
-    // multer files
     if (req.files && req.files.length > 0) {
       for (const file of req.files) {
-        const base64 = `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
+        const base64 = `data:${file.mimetype};base64,${file.buffer.toString("base64")}`; 
 
         const result = await cloudinary.uploader.upload(base64, {
           folder: "avena_profiles"
@@ -50,18 +47,17 @@ export const createProfile = async (req, res) => {
       }
     }
 
+    // COMPLETION LOGIC
     let completedFields = 0;
 
     if (name) completedFields++;
     if (age) completedFields++;
     if (gender) completedFields++;
-    if (phone) completedFields++;
     if (bio) completedFields++;
     if (prompt) completedFields++;
     if (uploadedPhotos.length >= 2) completedFields++;
 
-    const completionPercentage =
-      Math.floor((completedFields / 7) * 100);
+    const completionPercentage = Math.floor((completedFields / 6) * 100);
 
     const profile = await Profile.create({
       userId,
@@ -73,7 +69,7 @@ export const createProfile = async (req, res) => {
       prompt,
       photos: uploadedPhotos,
       completionPercentage,
-      isProfileComplete: completionPercentage >= 80
+      isProfileComplete: completionPercentage >= 70
     });
 
     res.status(201).json({
@@ -83,14 +79,13 @@ export const createProfile = async (req, res) => {
 
   } catch (error) {
     console.log(error);
-
-    res.status(500).json({
-      message: "Server Error"
-    });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
-// GET MY PROFILE
+
+
+// ================= GET PROFILE =================
 export const getMyProfile = async (req, res) => {
   const userId = req.user.id;
 
@@ -106,16 +101,13 @@ export const getMyProfile = async (req, res) => {
     res.status(200).json(profile);
 
   } catch (error) {
-    res.status(500).json({
-      message: "Server Error"
-    });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
 
 
-
-// UPDATE PROFILE
+// ================= UPDATE PROFILE =================
 export const updateProfile = async (req, res) => {
   const userId = req.user.id;
 
@@ -126,9 +118,22 @@ export const updateProfile = async (req, res) => {
     phone,
     bio,
     prompt,
-    photos
+    city,
+    nationality,
+    school,
+    height,
+    zodiac,
+    socialType,
+    musicTaste,
+    movieTaste,
+    favoriteFood,
+    dreamCountry,
+    firstHangout,
+    greenFlag,
+    redFlag
   } = req.body;
 
+  
   try {
     const profile = await Profile.findOne({ userId });
 
@@ -138,29 +143,77 @@ export const updateProfile = async (req, res) => {
       });
     }
 
+    // BASIC
     if (name) profile.name = name;
     if (age) profile.age = age;
     if (gender) profile.gender = gender;
     if (phone) profile.phone = phone;
     if (bio) profile.bio = bio;
-    if (prompt) profile.prompt =prompt;
-    if (photos) profile.photos = photos;
+    if (prompt) profile.prompt = prompt;
 
+    // DETAILS
+    if (city) profile.city = city;
+    if (nationality) profile.nationality = nationality;
+    if (school) profile.school = school;
+    if (height) profile.height = height;
+    if (zodiac) profile.zodiac = zodiac;
+    if (socialType) profile.socialType = socialType;
+
+    // ARRAYS
+    if (musicTaste) profile.musicTaste = musicTaste;
+    if (musicTaste) {
+  profile.musicTaste = Array.isArray(musicTaste)
+    ? musicTaste
+    : JSON.parse(musicTaste);
+}
+
+    if (movieTaste) {
+  profile.movieTaste = Array.isArray(movieTaste)
+    ? movieTaste
+    : JSON.parse(movieTaste);
+}
+    // FUN
+    if (favoriteFood) profile.favoriteFood = favoriteFood;
+    if (dreamCountry) profile.dreamCountry = dreamCountry;
+    if (firstHangout) profile.firstHangout = firstHangout;
+    if (greenFlag) profile.greenFlag = greenFlag;
+    if (redFlag) profile.redFlag = redFlag;
+
+    // ================= PHOTO UPLOAD =================
+    if (req.files && req.files.length > 0) {
+      const uploadedPhotos = [];
+      for (const file of req.files) {
+        const base64 = `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
+
+        const result = await cloudinary.uploader.upload(base64, {
+          folder: "avena_profiles"
+        });
+
+        uploadedPhotos.push(result.secure_url);
+      }
+
+      // append new photos
+      profile.photos = [...profile.photos, ...uploadedPhotos];
+    }
+
+    // ================= COMPLETION =================
     let completedFields = 0;
 
     if (profile.name) completedFields++;
     if (profile.age) completedFields++;
     if (profile.gender) completedFields++;
-    if (profile.phone) completedFields++;
     if (profile.bio) completedFields++;
     if (profile.prompt) completedFields++;
-    if (profile.photos.length > 0) completedFields++;
+    if (profile.photos.length >= 2) completedFields++;
+    if (profile.city) completedFields++;
+    if (profile.school) completedFields++;
+    if (profile.zodiac) completedFields++;
+    if (profile.musicTaste.length > 0) completedFields++;
+    if (profile.movieTaste.length > 0) completedFields++;
+    if (profile.greenFlag) completedFields++;
 
-    profile.completionPercentage =
-      Math.floor((completedFields / 7) * 100);
-
-    profile.isProfileComplete =
-      profile.completionPercentage >= 70;
+    profile.completionPercentage = Math.floor((completedFields / 12) * 100);
+    profile.isProfileComplete = profile.completionPercentage >= 75;
 
     await profile.save();
 
@@ -170,13 +223,7 @@ export const updateProfile = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(500).json({
-      message: "Server Error"
-    });
+    console.log(error);
+    res.status(500).json({ message: "Server Error" });
   }
 };
-
-
-
-
-

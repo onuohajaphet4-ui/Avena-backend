@@ -16,6 +16,9 @@ export const createPreference = async (req, res) => {
     
   } = req.body;
 
+  console.log(req.body);
+  console.log(req.files);
+
   try {
     const existingPreference = await Preference.findOne({ userId });
 

@@ -1,6 +1,9 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import {user} from "../model/user.js"
+import { Profile } from "../model/profile.js";
+import { Preference } from "../model/preference.js";
+
 import crypto from "crypto"
 
 
@@ -94,17 +97,52 @@ export const getAllUser = async (req, res) => {
         }
 }
 
- export const getUsersById = async (req, res) => {
-      const userId  = req.params.id
-      try {
-         const users = await user.findById(userId)
-            if(!users) return res.status(404).json({message: 'User Not Found'})
-            res.status(200).json({users})
+ 
+export const getUserById = async (req, res) => {
 
-      } catch (error) {
-        res.status(500).json({message: error.message})
-      }
-   }
+  try {
+
+    const userId = req.params.id;
+
+    const foundUser = await user.findById(userId);
+
+    const profile = await Profile.findOne({
+      userId,
+    });
+
+    const preference = await Preference.findOne({
+      userId,
+    });
+
+    if (!foundUser) {
+
+      return res.status(404).json({
+        message: "User not found",
+      });
+
+    }
+
+    res.status(200).json({
+
+      user: foundUser,
+
+      profile,
+
+      preference,
+
+    });
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+
+  }
+
+};
 
 
 //delete user

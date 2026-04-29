@@ -2,8 +2,7 @@
 
 import mongoose from "mongoose";
 
-const preferenceSchema = new mongoose.Schema(
-{
+const preferenceSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -11,44 +10,48 @@ const preferenceSchema = new mongoose.Schema(
     unique: true
   },
 
-  
   lookingFor: {
-    type: String
+    type: String,
+    enum: ["Man", "Woman", "Everyone"],
+    default: "Everyone"
   },
 
   relationshipType: {
     type: String,
-    default: "Friendship"
+    enum: ["Monogamy", "Open relationship", "Marriage minded", "Serious dating",  "Casual connection" ,"Still figuring it out"],
+    default: "Still figuring it out"
   },
 
-  interests: [{
-    type: String
-  }],
+  interests: {
+    type: [String],
+    default: []
+  },
 
-  personalityAnswers: [{
-    question: String,
-    answer: String
-  }],
+  personalityAnswers: {
+    type: [
+      {
+        question: String,
+        answer: String
+      }
+    ],
+    default: []
+  },
 
   personalityType: {
     type: String
   },
 
-  
   ageRangeMin: {
     type: Number,
-    default: 18
+    default: 18,
+    min: 18
   },
 
   ageRangeMax: {
     type: Number,
-    default: 35
+    default: 35,
+    max: 100
   }
 
-
-},
-{
-  timestamps: true
-});
-
+}, { timestamps: true });
 export const Preference = mongoose.model("Preference", preferenceSchema);

@@ -7,6 +7,11 @@ import path from "path"
 import userRoutes from './route/user.js'
 import profileRoutes from './route/profile.js'
 import preferenceRoutes from './route/preference.js'
+import discovereRoutes from './route/discover.js'
+import likeRoutes from './route/like.js'
+import matchRoutes from './route/match.js'
+import messageRoutes from './route/message.js'
+
 
 
 const app = express();
@@ -35,6 +40,10 @@ res.send ("hello Japhet you are cute")
 app.use('/api/user', userRoutes)
 app.use('/api/profile', profileRoutes)
 app.use('/api/preference',preferenceRoutes)
+app.use('/api/discover',discovereRoutes)
+app.use('/api/like',likeRoutes)
+app.use('/api/match',matchRoutes)
+app.use('/api/message',messageRoutes)
 
 
 // Start server

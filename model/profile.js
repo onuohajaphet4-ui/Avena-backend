@@ -1,9 +1,6 @@
-// models/profile.js
-
 import mongoose from "mongoose";
 
-const profileSchema = new mongoose.Schema(
-{
+const profileSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -11,7 +8,6 @@ const profileSchema = new mongoose.Schema(
     unique: true
   },
 
-  
   name: {
     type: String,
     required: true,
@@ -19,7 +15,7 @@ const profileSchema = new mongoose.Schema(
   },
 
   age: {
-    type: Number,
+    type: Date, // ✅ fixed
     required: true
   },
 
@@ -32,27 +28,59 @@ const profileSchema = new mongoose.Schema(
     type: String
   },
 
-  
   bio: {
     type: String,
     maxlength: 300
   },
 
-  
-  prompt:{
+  prompt: {
     type: String
   },
 
+  photos: {
+    type: [String],
+    default: []
+  },
 
-  photos: [{
-    type: String
-  }],
+  city: { type: String, default: "" },
+  nationality: { type: String, default: "" },
+  school: { type: String, default: "" },
+  height: { type: String, default: "" },
 
- 
-  
-},
-{
-  timestamps: true
-});
+  zodiac: { type: String, default: "" },
 
-export const Profile = mongoose.model("Profile", profileSchema);
+  socialType: { 
+    type: String,
+    default: ""
+  },
+
+  musicTaste: {
+    type: [String],
+    default: []
+  },
+
+  movieTaste: {
+    type: [String],
+    default: []
+  },
+
+  favoriteFood: { type: String, default: "" },
+  dreamCountry: { type: String, default: "" },
+  firstHangout: { type: String, default: "" },
+  greenFlag: { type: String, default: "" },
+  redFlag: { type: String, default: "" },
+
+  completionPercentage: {
+    type: Number,
+    default: 0
+  },
+
+  isProfileComplete: {
+    type: Boolean,
+    default: false
+  }
+
+}, { timestamps: true });
+
+export const Profile =
+mongoose.model("Profile", profileSchema);
