@@ -1,4 +1,4 @@
-import { Match } from "../model/Match.js";
+import { Match } from "../model/match.js";
 import { Profile } from "../model/profile.js";
 
 export const getMatches = async (req, res) => {
