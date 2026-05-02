@@ -69,6 +69,39 @@ return res.status(200).json({
   }
 };
 
+
+const getAge = (dob) => {
+
+  if (!dob) return 0;
+
+  const birthDate = new Date(dob);
+
+  const today = new Date();
+
+  let age =
+    today.getFullYear() -
+    birthDate.getFullYear();
+
+  const monthDiff =
+    today.getMonth() -
+    birthDate.getMonth();
+
+  if (
+    monthDiff < 0 ||
+    (
+      monthDiff === 0 &&
+      today.getDate() < birthDate.getDate()
+    )
+  ) {
+
+    age--;
+
+  }
+
+  return age;
+
+};
+
 export const getLikesYou = async (req, res) => {
 
   try {
@@ -99,33 +132,150 @@ export const getLikesYou = async (req, res) => {
 
     }).populate("sender");
 
+    const currentProfile = await Profile.findOne({
+  userId,
+});
+
+const currentPreference = await Preference.findOne({
+  userId,
+});
+
+const formattedLikes = await Promise.all(
+
+  likes.map(async (like) => {
+
+    const profile = await Profile.findOne({
+      userId: like.sender._id,
+    });
+
+    // if(!profile) return null
+
+    const preference = await Preference.findOne({
+      userId: like.sender._id,
+    });
+
+    
+
+    let score = 0;
+
+// GENDER
+if (
+  currentPreference?.lookingFor === "Everyone" ||
+  currentPreference?.lookingFor === profile?.gender
+) {
+
+  score += 20;
+
+} else {
+
+  score -= 10;
+
+}
+
+// AGE
+const age = getAge(profile?.age);
+
+if (
+  age >= currentPreference?.ageRangeMin &&
+  age <= currentPreference?.ageRangeMax
+) {
+
+  score += 15;
+
+} else {
+
+  score -= 5;
+
+}
+
+// RELATIONSHIP TYPE
+if (
+  preference?.relationshipType ===
+  currentPreference?.relationshipType
+) {
+
+  score += 15;
+
+}
+
+// INTERESTS
+const myInterests =
+  currentPreference?.interests || [];
+
+const theirInterests =
+  preference?.interests || [];
+
+const sharedInterests =
+  myInterests.filter((i) =>
+    theirInterests.includes(i)
+  );
+
+if (sharedInterests.length >= 3) {
+
+  score += 25;
+
+}
+
+// SAME CITY
+if (
+  profile?.city &&
+  profile?.city === currentProfile?.city
+) {
+
+  score += 10;
+
+}
+
+// SAME SCHOOL
+if (
+  profile?.school &&
+  profile?.school === currentProfile?.school
+) {
+
+  score += 10;
+
+}
+
+// ZODIAC
+if (
+  profile?.zodiac === currentProfile?.zodiac
+) {
+
+  score += 5;
+
+}
+
+// PROFILE QUALITY
+if (
+  profile?.completionPercentage < 50
+) {
+
+  score -= 20;
+
+}
+    
+
+    return {
+
+      ...like.toObject(),
+
+      profile,
+
+      preference,
+
+      sharedInterests,
+
+      score,
+
+    };
+
+  })
+
+);
 
 
-    const formattedLikes = await Promise.all(
-
-      likes.map(async (like) => {
-
-        const profile = await Profile.findOne({
-          userId: like.sender._id,
-        });
-
-        const preference = await Preference.findOne({
-          userId: like.sender._id,
-        });
-
-        return {
-
-          ...like.toObject(),
-
-          profile,
-
-          preference,
-
-        };
-
-      })
-
-    );
+  console.log("H:", formattedLikes)
+  console.log("HIM:", likes)
 
     res.status(200).json(formattedLikes);
 

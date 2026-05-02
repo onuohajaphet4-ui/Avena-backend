@@ -15,7 +15,7 @@ const profileSchema = new mongoose.Schema({
   },
 
   age: {
-    type: Date, // ✅ fixed
+    type: Number, 
     required: true
   },
 

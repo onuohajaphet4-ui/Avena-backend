@@ -79,7 +79,7 @@ const lastSeenUsers = {};
 
 // SOCKET CONNECTION
 io.on("connection", (socket) => {
-   console.log("socket:", socket.id)
+  //  console.log("socket:", socket.id)
 
   
 

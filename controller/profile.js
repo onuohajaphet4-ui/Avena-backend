@@ -3,7 +3,7 @@ import cloudinary from "../config/cloudinary.js";
 
 
 
-// ================= CREATE PROFILE =================
+
 export const createProfile = async (req, res) => {
   const userId = req.user.id;
   const body = req.body || {};
