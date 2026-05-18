@@ -69,3 +69,106 @@ export const getMessages = async (req, res) => {
   }
 
 };
+
+export const deleteMessage = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const { id } = req.params;
+
+    const message =
+      await Message.findById(id);
+
+    if (!message) {
+
+      return res.status(404).json({
+        message: "Message not found",
+      });
+
+    }
+
+    // ONLY SENDER CAN DELETE
+    if (
+      message.sender.toString() !==
+      req.user.id
+    ) {
+
+      return res.status(403).json({
+        message: "Unauthorized",
+      });
+
+    }
+
+    await Message.findByIdAndDelete(
+      messageId
+    );
+
+    res.status(200).json({
+      message: "Message deleted",
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+
+};
+
+export const editMessage = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const { id } = req.params;
+
+    const { text } = req.body;
+
+    const message =
+      await Message.findById(id);
+
+    if (!message) {
+
+      return res.status(404).json({
+        message: "Message not found",
+      });
+
+    }
+
+    // ONLY SENDER CAN EDIT
+    if (
+      message.sender.toString() !==
+      req.user.id
+    ) {
+
+      return res.status(403).json({
+        message: "Unauthorized",
+      });
+
+    }
+
+    message.text = text;
+
+    // OPTIONAL EDIT FLAG
+    message.edited = true;
+
+    await message.save();
+
+    res.status(200).json(message);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+
+};

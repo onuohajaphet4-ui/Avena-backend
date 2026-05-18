@@ -84,35 +84,24 @@ io.on("connection", (socket) => {
   
 
   // USER JOINS
-  socket.on("join", (userId) => {
+  socket.on("join", (user) => {
 
-  onlineUsers[userId] = socket.id;
-   
+  onlineUsers[user.userId] = socket.id;
+
+  socket.userId = user.userId;
 
   io.emit(
     "getOnlineUsers",
     Object.keys(onlineUsers)
   );
 
-  
 });
 
   // USER DISCONNECTS
   socket.on("disconnect", () => {
 
-  // console.log("User disconnected");
-
-  const disconnectedUser = Object.keys(
-    onlineUsers
-  ).find(
-    (userId) =>
-      onlineUsers[userId] === socket.id
-  );
-
-  // console.log(
-  //   "FOUND USER:",
-  //   disconnectedUser
-  // );
+  const disconnectedUser =
+    socket.userId;
 
   if (disconnectedUser) {
 
@@ -125,8 +114,6 @@ io.on("connection", (socket) => {
       "getOnlineUsers",
       Object.keys(onlineUsers)
     );
-
-    // console.log("EMITTING LAST SEEN");
 
     io.emit("userLastSeen", {
       userId: disconnectedUser,
