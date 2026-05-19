@@ -54,6 +54,10 @@ export const getMessages = async (req, res) => {
 
       ],
 
+      deletedFor: {
+        $nin: [userId]
+      },
+
     }).sort({ createdAt: 1 });
 
     res.status(200).json(messages);
@@ -78,6 +82,8 @@ export const deleteMessage = async (
   try {
 
     const { id } = req.params;
+    const userId = req.user.id;
+
 
     const message =
       await Message.findById(id);
@@ -102,9 +108,9 @@ export const deleteMessage = async (
 
     }
 
-    await Message.findByIdAndDelete(
-      messageId
-    );
+    message.text = "This message was deleted";
+    message.deletedForEveryone = true;
+    await message.save();
 
     res.status(200).json({
       message: "Message deleted",
@@ -114,6 +120,54 @@ export const deleteMessage = async (
 
     res.status(500).json({
       message: error.message,
+    });
+
+  }
+
+};
+
+export const deleteForMe = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const { id } = req.params;
+
+    const userId = req.user.id;
+
+    const message = await Message.findById(id);
+
+    if (!message) {
+
+      return res.status(404).json({
+        message: "Message not found",
+      });
+
+    }
+
+    // ADD USER TO deletedFor ARRAY
+    if (
+      !message.deletedFor.includes(userId)
+    ) {
+
+      message.deletedFor.push(userId);
+
+    }
+
+    await message.save();
+
+    res.status(200).json({
+      message: "Deleted for you",
+    });
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).json({
+      message: "Server error",
     });
 
   }

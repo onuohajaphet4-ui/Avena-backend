@@ -17,10 +17,19 @@ const messageSchema = new mongoose.Schema(
     },
 
     edited: {
-     type: Boolean,
+    type: Boolean,
     default: false,
+    },
+
+   deletedForEveryone: {
+    type: Boolean,
+   default: false,
    },
-   
+
+   deletedFor: [{
+   type: mongoose.Schema.Types.ObjectId,
+   ref: "user",
+   }],
   },
   { timestamps: true }
 );
