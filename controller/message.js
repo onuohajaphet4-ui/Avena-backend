@@ -1,22 +1,52 @@
 import { Message } from "../model/message.js";
-
+import streamifier from 'streamifier'
+import cloudinary from "../config/cloudinary.js";
 export const sendMessage = async (req, res) => {
 
   try {
 
     const sender = req.user.id;
-
     const receiver = req.params.id;
-
-    const { text } = req.body;
+    const { text, replyTo } = req.body;
+    let mediaUrl = "";
+    let mediaType = "";
+    if (req.file) {
+   const streamUpload = () => {
+   return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        resource_type: "auto",
+      },
+      (error, result) => {
+        if (result) resolve(result);
+        else reject(error);
+      }
+    );
+    streamifier.createReadStream(req.file.buffer).pipe(stream);
+   });
+   };
+   const result = await streamUpload();
+   mediaUrl = result.secure_url;
+   if (req.file.mimetype.startsWith("image")) {
+    mediaType = "image";
+   } else if (
+    req.file.mimetype.startsWith("video")
+   ) {
+     mediaType = "video";
+   }
+ }
+    console.log(req.body);
 
     const newMessage = await Message.create({
       sender,
       receiver,
       text,
+      media: mediaUrl,
+      mediaType,
+      replyTo: req.body.replyTo || null
     });
-
-    res.status(201).json(newMessage);
+    const populatedMessage = await Message.findById(newMessage._id);
+    res.status(201).json(populatedMessage);
 
   } catch (err) {
 
@@ -55,7 +85,7 @@ export const getMessages = async (req, res) => {
       ],
 
       deletedFor: {
-        $nin: [userId]
+        $nin: [currentUser]
       },
 
     }).sort({ createdAt: 1 });
@@ -149,7 +179,7 @@ export const deleteForMe = async (
 
     // ADD USER TO deletedFor ARRAY
     if (
-      !message.deletedFor.includes(userId)
+      !(message.deletedFor || []).includes(userId)
     ) {
 
       message.deletedFor.push(userId);
@@ -222,6 +252,166 @@ export const editMessage = async (
     res.status(500).json({
       message: error.message,
     });
+
+  }
+
+};
+
+export const pinMessage = async (req, res) => {
+
+  try {
+
+    const message = await Message.findById(req.params.id);
+
+    if (!message) {
+      return res.status(404).json({
+        message: "Message not found"
+      });
+    }
+
+    // UNPIN
+    if (message.pinnedBy) {
+
+      message.pinnedBy = null;
+      message.pinExpiresAt = null;
+
+    } else {
+
+      // PIN
+      const duration = req.body.duration;
+
+      let expireDate = new Date();
+
+      if (duration === "24h") {
+        expireDate.setHours(expireDate.getHours() + 24);
+      }
+
+      if (duration === "7d") {
+        expireDate.setDate(expireDate.getDate() + 7);
+      }
+
+      if (duration === "30d") {
+        expireDate.setDate(expireDate.getDate() + 30);
+      }
+
+      message.pinnedBy = req.user.id;
+      message.pinExpiresAt = expireDate;
+    }
+
+    await message.save();
+
+    res.status(200).json({
+      message: "Message updated",
+      data: message,
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server error"
+    });
+
+  }
+
+};
+
+export const markMessageAsRead = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const { id } = req.params;
+
+    const message = await Message.findById(id);
+
+    if (!message) {
+
+      return res.status(404).json({
+        message: "Message not found",
+      });
+
+    }
+
+    message.read = true;
+
+    message.readAt = new Date();
+
+    await message.save();
+
+    res.status(200).json({
+      message: "Message marked as read",
+      data: message,
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+
+  }
+
+};
+
+export const reactToMessage = async (req, res) => {
+
+  try {
+
+    const { emoji } = req.body;
+    const message = await Message.findById(
+      req.params.messageId
+    );
+
+    if (!message) {
+      return res.status(404).json(
+        "Message not found"
+      );
+    }
+    const existingReaction =
+      message.reactions.find(
+        (r) =>
+          r.user.toString() === req.user.id
+      );
+    // USER ALREADY HAS REACTION
+    if (existingReaction) {
+      // SAME EMOJI = REMOVE REACTION
+      if (existingReaction.emoji === emoji) {
+
+        message.reactions =
+          message.reactions.filter(
+            (r) =>
+              r.user.toString() !== req.user.id
+          );
+
+      }
+
+      // DIFFERENT EMOJI = REPLACE
+      else {
+        existingReaction.emoji = emoji;
+      }
+    }
+    // NO REACTION YET
+    else {
+
+      message.reactions.push({
+        user: req.user.id,
+        emoji,
+      });
+
+    }
+    await message.save();
+    res.json(message);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(
+      "Server Error"
+    );
 
   }
 

@@ -1,0 +1,261 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.3
+2 info using node@v22.19.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:C:\Users\HomePC\Desktop\Arena backend\.npmrc
+5 silly config load:file:C:\Users\HomePC\.npmrc
+6 silly config load:file:C:\Users\HomePC\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm install streamifier
+8 verbose argv "install" "streamifier"
+9 verbose logfile logs-max:10 dir:C:\Users\HomePC\Desktop\Arena backend\verify\_logs\2026-05-23T15_27_00_082Z-
+10 verbose logfile C:\Users\HomePC\Desktop\Arena backend\verify\_logs\2026-05-23T15_27_00_082Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+13 silly logfile done cleaning log files
+14 silly idealTree buildDeps
+15 silly fetch manifest streamifier@*
+16 silly packumentCache full:https://registry.npmjs.org/streamifier cache-miss
+17 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules/accepts
+18 http fetch GET 200 https://registry.npmjs.org/streamifier 2985ms (cache miss)
+19 silly packumentCache full:https://registry.npmjs.org/streamifier set size:undefined disposed:false
+20 silly placeDep ROOT streamifier@0.1.1 OK for: arena-backend@1.0.0 want: *
+21 silly reify moves {}
+22 silly audit bulk request {
+22 silly audit   '@mongodb-js/saslprep': [ '1.4.6' ],
+22 silly audit   '@socket.io/component-emitter': [ '3.1.2' ],
+22 silly audit   '@types/cors': [ '2.8.19' ],
+22 silly audit   '@types/node': [ '25.6.0' ],
+22 silly audit   '@types/webidl-conversions': [ '7.0.3' ],
+22 silly audit   '@types/whatwg-url': [ '13.0.0' ],
+22 silly audit   '@types/ws': [ '8.18.1' ],
+22 silly audit   accepts: [ '2.0.0', '1.3.8' ],
+22 silly audit   anymatch: [ '3.1.3' ],
+22 silly audit   'append-field': [ '1.0.0' ],
+22 silly audit   'balanced-match': [ '4.0.4' ],
+22 silly audit   base64id: [ '2.0.0' ],
+22 silly audit   base64url: [ '3.0.1' ],
+22 silly audit   bcryptjs: [ '3.0.3' ],
+22 silly audit   'binary-extensions': [ '2.3.0' ],
+22 silly audit   'body-parser': [ '2.2.2' ],
+22 silly audit   'brace-expansion': [ '5.0.5' ],
+22 silly audit   braces: [ '3.0.3' ],
+22 silly audit   bson: [ '7.2.0' ],
+22 silly audit   'buffer-equal-constant-time': [ '1.0.1' ],
+22 silly audit   'buffer-from': [ '1.1.2' ],
+22 silly audit   busboy: [ '1.6.0' ],
+22 silly audit   bytes: [ '3.1.2' ],
+22 silly audit   'call-bind-apply-helpers': [ '1.0.2' ],
+22 silly audit   'call-bound': [ '1.0.4' ],
+22 silly audit   chokidar: [ '3.6.0' ],
+22 silly audit   cloudinary: [ '2.9.0' ],
+22 silly audit   'concat-stream': [ '2.0.0' ],
+22 silly audit   'content-disposition': [ '1.1.0' ],
+22 silly audit   'content-type': [ '1.0.5' ],
+22 silly audit   cookie: [ '0.7.2' ],
+22 silly audit   'cookie-signature': [ '1.2.2' ],
+22 silly audit   cors: [ '2.8.6' ],
+22 silly audit   debug: [ '4.4.3' ],
+22 silly audit   depd: [ '2.0.0' ],
+22 silly audit   dotenv: [ '17.4.2' ],
+22 silly audit   'dunder-proto': [ '1.0.1' ],
+22 silly audit   'ecdsa-sig-formatter': [ '1.0.11' ],
+22 silly audit   'ee-first': [ '1.1.1' ],
+22 silly audit   encodeurl: [ '2.0.0' ],
+22 silly audit   'engine.io': [ '6.6.7' ],
+22 silly audit   'engine.io-parser': [ '5.2.3' ],
+22 silly audit   'mime-db': [ '1.52.0', '1.54.0' ],
+22 silly audit   'mime-types': [ '2.1.35', '3.0.2' ],
+22 silly audit   negotiator: [ '0.6.3', '1.0.0' ],
+22 silly audit   'es-define-property': [ '1.0.1' ],
+22 silly audit   'es-errors': [ '1.3.0' ],
+22 silly audit   'es-object-atoms': [ '1.1.1' ],
+22 silly audit   'escape-html': [ '1.0.3' ],
+22 silly audit   etag: [ '1.8.1' ],
+22 silly audit   express: [ '5.2.1' ],
+22 silly audit   'fill-range': [ '7.1.1' ],
+22 silly audit   finalhandler: [ '2.1.1' ],
+22 silly audit   forwarded: [ '0.2.0' ],
+22 silly audit   fresh: [ '2.0.0' ],
+22 silly audit   fsevents: [ '2.3.3' ],
+22 silly audit   'function-bind': [ '1.1.2' ],
+22 silly audit   'get-intrinsic': [ '1.3.0' ],
+22 silly audit   'get-proto': [ '1.0.1' ],
+22 silly audit   'glob-parent': [ '5.1.2' ],
+22 silly audit   gopd: [ '1.2.0' ],
+22 silly audit   'has-flag': [ '3.0.0' ],
+22 silly audit   'has-symbols': [ '1.1.0' ],
+22 silly audit   hasown: [ '2.0.2' ],
+22 silly audit   'http-errors': [ '2.0.1' ],
+22 silly audit   'iconv-lite': [ '0.7.2' ],
+22 silly audit   'ignore-by-default': [ '1.0.1' ],
+22 silly audit   inherits: [ '2.0.4' ],
+22 silly audit   'ipaddr.js': [ '1.9.1' ],
+22 silly audit   'is-binary-path': [ '2.1.0' ],
+22 silly audit   'is-extglob': [ '2.1.1' ],
+22 silly audit   'is-glob': [ '4.0.3' ],
+22 silly audit   'is-number': [ '7.0.0' ],
+22 silly audit   'is-promise': [ '4.0.0' ],
+22 silly audit   jsonwebtoken: [ '9.0.3' ],
+22 silly audit   jwa: [ '2.0.1' ],
+22 silly audit   jws: [ '4.0.1' ],
+22 silly audit   kareem: [ '3.2.0' ],
+22 silly audit   lodash: [ '4.18.1' ],
+22 silly audit   'lodash.includes': [ '4.3.0' ],
+22 silly audit   'lodash.isboolean': [ '3.0.3' ],
+22 silly audit   'lodash.isinteger': [ '4.0.4' ],
+22 silly audit   'lodash.isnumber': [ '3.0.3' ],
+22 silly audit   'lodash.isplainobject': [ '4.0.6' ],
+22 silly audit   'lodash.isstring': [ '4.0.1' ],
+22 silly audit   'lodash.once': [ '4.1.1' ],
+22 silly audit   'math-intrinsics': [ '1.1.0' ],
+22 silly audit   'media-typer': [ '1.1.0', '0.3.0' ],
+22 silly audit   'memory-pager': [ '1.5.0' ],
+22 silly audit   'merge-descriptors': [ '2.0.0' ],
+22 silly audit   minimatch: [ '10.2.5' ],
+22 silly audit   mogodb: [ '0.0.1-security' ],
+22 silly audit   mongodb: [ '7.1.1' ],
+22 silly audit   'mongodb-connection-string-url': [ '7.0.1' ],
+22 silly audit   mongoose: [ '9.4.1' ],
+22 silly audit   mpath: [ '0.9.0' ],
+22 silly audit   mquery: [ '6.0.0' ],
+22 silly audit   ms: [ '2.1.3' ],
+22 silly audit   multer: [ '2.1.1' ],
+22 silly audit   'type-is': [ '1.6.18', '2.0.1' ],
+22 silly audit   nodemon: [ '3.1.14' ],
+22 silly audit   'normalize-path': [ '3.0.0' ],
+22 silly audit   oauth: [ '0.10.2' ],
+22 silly audit   'object-assign': [ '4.1.1' ],
+22 silly audit   'object-inspect': [ '1.13.4' ],
+22 silly audit   'on-finished': [ '2.4.1' ],
+22 silly audit   once: [ '1.4.0' ],
+22 silly audit   parseurl: [ '1.3.3' ],
+22 silly audit   passport: [ '0.7.0' ],
+22 silly audit   'passport-google-oauth20': [ '2.0.0' ],
+22 silly audit   'passport-oauth2': [ '1.8.0' ],
+22 silly audit   'passport-strategy': [ '1.0.0' ],
+22 silly audit   'path-to-regexp': [ '8.4.2' ],
+22 silly audit   pause: [ '0.0.1' ],
+22 silly audit   picomatch: [ '2.3.2' ],
+22 silly audit   'proxy-addr': [ '2.0.7' ],
+22 silly audit   'pstree.remy': [ '1.1.8' ],
+22 silly audit   punycode: [ '2.3.1' ],
+22 silly audit   qs: [ '6.15.1' ],
+22 silly audit   'range-parser': [ '1.2.1' ],
+22 silly audit   'raw-body': [ '3.0.2' ],
+22 silly audit   'readable-stream': [ '3.6.2' ],
+22 silly audit   readdirp: [ '3.6.0' ],
+22 silly audit   router: [ '2.2.0' ],
+22 silly audit   'safe-buffer': [ '5.2.1' ],
+22 silly audit   'safer-buffer': [ '2.1.2' ],
+22 silly audit   semver: [ '7.7.4' ],
+22 silly audit   send: [ '1.2.1' ],
+22 silly audit   'serve-static': [ '2.2.1' ],
+22 silly audit   setprototypeof: [ '1.2.0' ],
+22 silly audit   'side-channel': [ '1.1.0' ],
+22 silly audit   'side-channel-list': [ '1.0.1' ],
+22 silly audit   'side-channel-map': [ '1.0.1' ],
+22 silly audit   'side-channel-weakmap': [ '1.0.2' ],
+22 silly audit   sift: [ '17.1.3' ],
+22 silly audit   'simple-update-notifier': [ '2.0.0' ],
+22 silly audit   'socket.io': [ '4.8.3' ],
+22 silly audit   'socket.io-adapter': [ '2.5.6' ],
+22 silly audit   'socket.io-parser': [ '4.2.6' ],
+22 silly audit   'sparse-bitfield': [ '3.0.3' ],
+22 silly audit   statuses: [ '2.0.2' ],
+22 silly audit   streamsearch: [ '1.1.0' ],
+22 silly audit   string_decoder: [ '1.3.0' ],
+22 silly audit   'supports-color': [ '5.5.0' ],
+22 silly audit   'to-regex-range': [ '5.0.1' ],
+22 silly audit   toidentifier: [ '1.0.1' ],
+22 silly audit   touch: [ '3.1.1' ],
+22 silly audit   tr46: [ '5.1.1' ],
+22 silly audit   typedarray: [ '0.0.6' ],
+22 silly audit   uid2: [ '0.0.4' ],
+22 silly audit   undefsafe: [ '2.0.5' ],
+22 silly audit   'undici-types': [ '7.19.2' ],
+22 silly audit   unpipe: [ '1.0.0' ],
+22 silly audit   'util-deprecate': [ '1.0.2' ],
+22 silly audit   'utils-merge': [ '1.0.1' ],
+22 silly audit   vary: [ '1.1.2' ],
+22 silly audit   'webidl-conversions': [ '7.0.0' ],
+22 silly audit   'whatwg-url': [ '14.2.0' ],
+22 silly audit   wrappy: [ '1.0.2' ],
+22 silly audit   ws: [ '8.18.3' ],
+22 silly audit   streamifier: [ '0.1.1' ]
+22 silly audit }
+23 verbose reify failed optional dependency C:\Users\HomePC\Desktop\Arena backend\node_modules\fsevents
+24 silly reify mark deleted [ 'C:\\Users\\HomePC\\Desktop\\Arena backend\\node_modules\\fsevents' ]
+25 http cache streamifier@https://registry.npmjs.org/streamifier/-/streamifier-0.1.1.tgz 0ms (cache hit)
+26 silly tarball no local data for streamifier@https://registry.npmjs.org/streamifier/-/streamifier-0.1.1.tgz. Extracting by manifest.
+27 http fetch GET 200 https://registry.npmjs.org/streamifier/-/streamifier-0.1.1.tgz 1486ms (cache miss)
+28 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 1983ms
+29 silly audit report {
+29 silly audit report   'brace-expansion': [
+29 silly audit report     {
+29 silly audit report       id: 1119088,
+29 silly audit report       url: 'https://github.com/advisories/GHSA-jxxr-4gwj-5jf2',
+29 silly audit report       title: 'brace-expansion: Large numeric range defeats documented `max` DoS protection',
+29 silly audit report       severity: 'moderate',
+29 silly audit report       vulnerable_versions: '>=5.0.0 <5.0.6',
+29 silly audit report       cwe: [Array],
+29 silly audit report       cvss: [Object]
+29 silly audit report     }
+29 silly audit report   ],
+29 silly audit report   qs: [
+29 silly audit report     {
+29 silly audit report       id: 1119502,
+29 silly audit report       url: 'https://github.com/advisories/GHSA-q8mj-m7cp-5q26',
+29 silly audit report       title: 'qs has a remotely triggerable DoS: qs.stringify crashes with TypeError on null/undefined entries in comma-format arrays when encodeValuesOnly is set',
+29 silly audit report       severity: 'moderate',
+29 silly audit report       vulnerable_versions: '>=6.11.1 <=6.15.1',
+29 silly audit report       cwe: [Array],
+29 silly audit report       cvss: [Object]
+29 silly audit report     }
+29 silly audit report   ],
+29 silly audit report   ws: [
+29 silly audit report     {
+29 silly audit report       id: 1119108,
+29 silly audit report       url: 'https://github.com/advisories/GHSA-58qx-3vcg-4xpx',
+29 silly audit report       title: 'ws: Uninitialized memory disclosure',
+29 silly audit report       severity: 'moderate',
+29 silly audit report       vulnerable_versions: '>=8.0.0 <8.20.1',
+29 silly audit report       cwe: [Array],
+29 silly audit report       cvss: [Object]
+29 silly audit report     }
+29 silly audit report   ]
+29 silly audit report }
+30 silly packumentCache corgi:https://registry.npmjs.org/brace-expansion cache-miss
+31 silly packumentCache corgi:https://registry.npmjs.org/qs cache-miss
+32 silly packumentCache corgi:https://registry.npmjs.org/ws cache-miss
+33 http fetch GET 200 https://registry.npmjs.org/brace-expansion 286ms (cache miss)
+34 silly packumentCache corgi:https://registry.npmjs.org/brace-expansion set size:undefined disposed:false
+35 http fetch GET 200 https://registry.npmjs.org/qs 704ms (cache miss)
+36 silly packumentCache corgi:https://registry.npmjs.org/qs set size:undefined disposed:false
+37 http fetch GET 200 https://registry.npmjs.org/ws 1667ms (cache miss)
+38 silly packumentCache corgi:https://registry.npmjs.org/ws set size:undefined disposed:false
+39 silly packumentCache corgi:https://registry.npmjs.org/minimatch cache-miss
+40 http fetch GET 200 https://registry.npmjs.org/minimatch 291ms (cache miss)
+41 silly packumentCache corgi:https://registry.npmjs.org/minimatch set size:undefined disposed:false
+42 silly packumentCache corgi:https://registry.npmjs.org/body-parser cache-miss
+43 silly packumentCache corgi:https://registry.npmjs.org/express cache-miss
+44 http fetch GET 200 https://registry.npmjs.org/express 800ms (cache miss)
+45 silly packumentCache corgi:https://registry.npmjs.org/express set size:undefined disposed:false
+46 http fetch GET 200 https://registry.npmjs.org/body-parser 861ms (cache miss)
+47 silly packumentCache corgi:https://registry.npmjs.org/body-parser set size:undefined disposed:false
+48 silly packumentCache corgi:https://registry.npmjs.org/engine.io cache-miss
+49 silly packumentCache corgi:https://registry.npmjs.org/socket.io-adapter cache-miss
+50 http fetch GET 200 https://registry.npmjs.org/engine.io 357ms (cache miss)
+51 silly packumentCache corgi:https://registry.npmjs.org/engine.io set size:undefined disposed:false
+52 http fetch GET 200 https://registry.npmjs.org/socket.io-adapter 388ms (cache miss)
+53 silly packumentCache corgi:https://registry.npmjs.org/socket.io-adapter set size:undefined disposed:false
+54 silly packumentCache corgi:https://registry.npmjs.org/socket.io cache-miss
+55 http fetch GET 200 https://registry.npmjs.org/socket.io 360ms (cache miss)
+56 silly packumentCache corgi:https://registry.npmjs.org/socket.io set size:undefined disposed:false
+57 silly ADD node_modules/streamifier
+58 silly ADD
+59 verbose cwd C:\Users\HomePC\Desktop\Arena backend
+60 verbose os Windows_NT 10.0.19045
+61 verbose node v22.19.0
+62 verbose npm  v10.9.3
+63 verbose exit 0
+64 info ok

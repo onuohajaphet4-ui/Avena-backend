@@ -26,10 +26,52 @@ const messageSchema = new mongoose.Schema(
    default: false,
    },
 
-   deletedFor: [{
+   deletedFor: {
+   type: [mongoose.Schema.Types.ObjectId],
+   ref: "User",
+   default: [],
+   },
+
+   pinnedBy: {
    type: mongoose.Schema.Types.ObjectId,
    ref: "user",
-   }],
+   },
+
+   pinExpiresAt: {
+    type: Date,
+   default: null,
+   },
+  
+   replyTo: {
+    messageId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Message",
+   },
+    text: String,
+    senderName: String,
+   },
+
+   reactions: [
+  {
+   user: {
+     type: mongoose.Schema.Types.ObjectId,
+     ref: "user",
+   },
+   emoji: String,
+   }
+  ],
+
+   media: {
+   type: String,
+   default: "",
+   },
+
+   mediaType: {
+   type: String,
+   enum: ["image", "video", ""],
+   default: "",
+   },
+
   },
   { timestamps: true }
 );
