@@ -15,7 +15,7 @@ import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/:id", auth,upload.single("media"), sendMessage);
+router.post("/:id", auth,upload.array("media",10), sendMessage);
 router.get("/:id", auth, getMessages);
 router.delete("/:id", auth, deleteMessage);
 router.delete("/delete-for-me/:id", auth, deleteForMe);

@@ -7,7 +7,7 @@
 6 silly config load:file:C:\Users\HomePC\AppData\Roaming\npm\etc\npmrc
 7 verbose title npm run dev
 8 verbose argv "run" "dev"
-9 verbose logfile logs-max:10 dir:C:\Users\HomePC\Desktop\Arena backend\verify\_logs\2026-05-19T14_45_49_261Z-
-10 verbose logfile C:\Users\HomePC\Desktop\Arena backend\verify\_logs\2026-05-19T14_45_49_261Z-debug-0.log
+9 verbose logfile logs-max:10 dir:C:\Users\HomePC\Desktop\Arena backend\verify\_logs\2026-05-28T16_30_25_227Z-
+10 verbose logfile C:\Users\HomePC\Desktop\Arena backend\verify\_logs\2026-05-28T16_30_25_227Z-debug-0.log
 11 silly logfile start cleaning logs, removing 1 files
 12 silly logfile done cleaning log files

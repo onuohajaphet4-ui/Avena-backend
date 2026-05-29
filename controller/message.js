@@ -2,50 +2,72 @@ import { Message } from "../model/message.js";
 import streamifier from 'streamifier'
 import cloudinary from "../config/cloudinary.js";
 export const sendMessage = async (req, res) => {
-
   try {
 
     const sender = req.user.id;
     const receiver = req.params.id;
+
     const { text, replyTo } = req.body;
-    let mediaUrl = "";
-    let mediaType = "";
-    if (req.file) {
-   const streamUpload = () => {
-   return new Promise((resolve, reject) => {
-    const stream = cloudinary.uploader.upload_stream(
-      {
-        resource_type: "auto",
-      },
-      (error, result) => {
-        if (result) resolve(result);
-        else reject(error);
+
+    let media = [];
+
+    // UPLOAD MULTIPLE FILES
+    if (req.files && req.files.length > 0) {
+
+      for (const file of req.files) {
+
+        const streamUpload = () => {
+          return new Promise((resolve, reject) => {
+
+            const stream =
+              cloudinary.uploader.upload_stream(
+                {
+                  resource_type: "auto",
+                },
+                (error, result) => {
+
+                  if (result) {
+                    resolve(result);
+                  } else {
+                    reject(error);
+                  }
+
+                }
+              );
+
+            streamifier
+              .createReadStream(file.buffer)
+              .pipe(stream);
+
+          });
+        };
+
+        const result = await streamUpload();
+
+        media.push({
+          url: result.secure_url,
+          type: file.mimetype.startsWith("image")
+            ? "image"
+            : "video",
+        });
+
       }
-    );
-    streamifier.createReadStream(req.file.buffer).pipe(stream);
-   });
-   };
-   const result = await streamUpload();
-   mediaUrl = result.secure_url;
-   if (req.file.mimetype.startsWith("image")) {
-    mediaType = "image";
-   } else if (
-    req.file.mimetype.startsWith("video")
-   ) {
-     mediaType = "video";
-   }
- }
-    console.log(req.body);
+
+    }
 
     const newMessage = await Message.create({
       sender,
       receiver,
       text,
-      media: mediaUrl,
-      mediaType,
-      replyTo: req.body.replyTo || null
+      media,
+      replyTo: replyTo
+        ? JSON.parse(replyTo)
+        : null,
     });
-    const populatedMessage = await Message.findById(newMessage._id);
+
+    const populatedMessage =
+      await Message.findById(newMessage._id);
+
     res.status(201).json(populatedMessage);
 
   } catch (err) {
@@ -57,7 +79,6 @@ export const sendMessage = async (req, res) => {
     });
 
   }
-
 };
 
 export const getMessages = async (req, res) => {

@@ -52,19 +52,27 @@ const messageSchema = new mongoose.Schema(
    },
 
    reactions: [
-  {
+   {
    user: {
      type: mongoose.Schema.Types.ObjectId,
      ref: "user",
    },
    emoji: String,
    }
-  ],
+   ],
 
-   media: {
-   type: String,
-   default: "",
+   media: [
+   {
+    url: {
+      type: String,
+    },
+
+    type: {
+      type: String,
+      enum: ["image", "video"],
+    },
    },
+   ],
 
    mediaType: {
    type: String,
